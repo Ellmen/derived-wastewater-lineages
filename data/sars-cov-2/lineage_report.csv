@@ -1,0 +1,4 @@
+taxon,lineage,conflict,ambiguity_score,scorpio_call,scorpio_support,scorpio_conflict,scorpio_notes,version,pangolin_version,scorpio_version,constellation_version,is_designated,qc_status,qc_notes,note
+lineage1 <unknown description>,BA.2,0.0,,Omicron (BA.2-like),0.97,0.0,scorpio call: Alt alleles 62; Ref alleles 0; Amb alleles 0; Oth alleles 2,PUSHER-v1.11,4.1.1,0.3.17,v0.1.10,False,pass,Ambiguous_content:0.02,Usher placements: BA.2(1/1)
+lineage2 <unknown description>,BA.1.1,0.0,,Omicron (BA.1-like),0.88,0.0,scorpio call: Alt alleles 52; Ref alleles 0; Amb alleles 1; Oth alleles 6,PUSHER-v1.11,4.1.1,0.3.17,v0.1.10,False,pass,Ambiguous_content:0.02,Usher placements: BA.1.1(1/1)
+lineage3 <unknown description>,B.1.617.2,0.5,,Delta (B.1.617.2-like),0.77,0.23,scorpio call: Alt alleles 10; Ref alleles 3; Amb alleles 0; Oth alleles 0,PUSHER-v1.11,4.1.1,0.3.17,v0.1.10,False,pass,Ambiguous_content:0.02,Usher placements: AY.110(1/2) B.1.617.2(1/2)
