@@ -109,13 +109,15 @@ def load_mut_data(virus):
     return muts, mut_data
 
 
-def do_nmf(virus, mut_data, n_components=5):
+def do_nmf(virus, mut_data, n_components=5, save_model=True):
     from sklearn.decomposition import NMF, DictionaryLearning
     # nmf = NMF(n_components=n_components, init='nndsvd')
-    nmf = NMF(n_components=n_components, init='nndsvdar')
+    nmf = NMF(n_components=n_components, init='nndsvdar', max_iter=1000)
     nmf.fit(mut_data)
-    with open('data/{}/mut_nmf.npy'.format(virus), 'wb') as f:
-        np.save(f, nmf.components_)
+    if save_model:
+        with open('data/{}/mut_nmf.npy'.format(virus), 'wb') as f:
+            np.save(f, nmf.components_)
+    return nmf.reconstruction_err_
 
 
 def load_nmf(virus):
@@ -292,6 +294,18 @@ def plot_lineages_with_real(muts, comps, cutoff=0.25):
     plot_lineage_mutations(muts, new_comps, lin_names=lin_names)
 
 
+def test_multiple_n(virus, mut_data, max_n, label="synthetic"):
+    from matplotlib import pyplot as plt
+    errs = []
+    for num_lineages in range(max_n):
+        err = do_nmf(virus, mut_data, n_components=num_lineages+1, save_model=False)
+        errs.append(err)
+    plt.plot([i+1 for i in range(max_n)], errs)
+    plt.xlabel('Number of components')
+    plt.ylabel('Reconstruction error')
+    plt.savefig(f'figures/num_lineages_{label}.pdf')
+
+
 virus = 'sars-cov-2' # sars-cov-2 or tobrfv
 # virus = 'tobrfv' # sars-cov-2 or tobrfv
 orf = 'all' # See orfs in only_orf function
@@ -305,7 +319,8 @@ make_mut_data(virus, only_runs) # Can be commented out after this is run the fir
 muts, mut_data = load_mut_data(virus)
 muts, mut_data = only_orf(virus, orf, muts, mut_data)
 print(mut_data.shape)
-do_nmf(virus, mut_data, n_components=num_lineages) # Can be commented out if no changes are made
+err = do_nmf(virus, mut_data, n_components=num_lineages+1) # Run for single number of lineages
+# test_multiple_n(virus, mut_data, 10)
 muts = load_muts(virus)
 muts = only_orf(virus, orf, muts)
 nmf = load_nmf(virus)
